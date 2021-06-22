@@ -1,0 +1,82 @@
+site_name: Reforms
+site_description: Reforms is a modern pydantic-based forms validation and rendering library for Python 3.6+.
+site_url: https://reforms.boardpack.org/ru/
+theme:
+  name: material
+  palette:
+  - scheme: default
+    primary: deep purple
+    accent: amber
+    toggle:
+      icon: material/lightbulb-outline
+      name: Перейти к темной версии
+  - scheme: slate
+    primary: deep purple
+    accent: amber
+    toggle:
+      icon: material/lightbulb
+      name: Перейти к cветлой версии
+  features:
+  - search.suggest
+  - search.highlight
+  icon:
+    repo: fontawesome/brands/github-alt
+  logo: https://reforms.boardpack.org/img/icon-white.png
+  favicon: https://reforms.boardpack.org/img/favicon.png
+  language: ru
+repo_name: boardpack/reforms
+repo_url: https://github.com/boardpack/reforms
+edit_uri: ''
+copyright: Copyright &copy; 2021 Roman Sadzhenytsia
+plugins:
+- search
+- markdownextradata:
+    data: data
+nav:
+- Reforms: index.md
+- Languages:
+  - English: /
+  - Русский: /ru/
+- features.md
+- Usage:
+  - usage/fields.md
+  - usage/validators.md
+- help-reforms.md
+- contributing.md
+- release-notes.md
+markdown_extensions:
+- toc:
+    permalink: true
+- markdown.extensions.codehilite:
+    guess_lang: false
+- markdown_include.include:
+    base_path: docs
+- admonition
+- codehilite
+- extra
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_div_format ''
+- pymdownx.tabbed
+extra:
+  social:
+  - icon: fontawesome/brands/github-alt
+    link: https://github.com/boardpack/reforms
+  - icon: fontawesome/brands/telegram
+    link: https://t.me/dukkee
+  - icon: fontawesome/solid/globe
+    link: https://boardpack.org
+  alternate:
+  - link: /
+    name: English
+  - link: /ru/
+    name: Русский
+extra_css:
+- https://reforms.boardpack.org/css/termynal.css
+- https://reforms.boardpack.org/css/custom.css
+extra_javascript:
+- https://unpkg.com/mermaid@8.4.6/dist/mermaid.min.js
+- https://reforms.boardpack.org/js/termynal.js
+- https://reforms.boardpack.org/js/custom.js

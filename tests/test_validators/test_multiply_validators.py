@@ -1,0 +1,45 @@
+import itertools
+
+import pytest
+
+from pydantic import BaseModel
+from reforms import Reforms, str_field
+from reforms.validators import AnyOf, BaseValidator, Length, NoneOf, Required
+
+
+@pytest.mark.parametrize(
+    "test_value, validator1, validator2",
+    [
+        (test_value, validator1, validator2)
+        for test_value, validator1, validator2 in itertools.chain(
+            (
+                ("a", validator1, validator2)
+                for validator1, validator2 in itertools.combinations(
+                    (Required(), AnyOf(values=["a", "b", "c"]), Length(min=1)),
+                    2,
+                )
+            ),
+            (
+                ("d", validator1, validator2)
+                for validator1, validator2 in itertools.combinations(
+                    (Required(), NoneOf(values=["a", "b", "c"]), Length(min=1)),
+                    2,
+                )
+            ),
+        )
+    ],
+)
+def test_multiply_validators_passes(
+    test_value: str,
+    validator1: BaseValidator,
+    validator2: BaseValidator,
+    forms: Reforms,
+):
+    class MyForm(BaseModel):
+        field: str_field(validators=[validator1, validator2])
+
+    form = forms.Form(MyForm)
+    form(field=test_value)
+
+
+# TODO: add more tests for multiply validators usage
