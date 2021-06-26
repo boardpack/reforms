@@ -3,7 +3,8 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_302_FOUND
-from reforms import Reforms, on_model
+from reforms import Reforms
+from reforms.contrib.fastapi import on_model
 
 from models import UserModel
 
