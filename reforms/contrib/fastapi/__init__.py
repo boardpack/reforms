@@ -1,14 +1,15 @@
-from typing import Any, Callable
+from typing import Any, Callable, Type
+
+from fastapi.requests import Request
 
 from pydantic import BaseModel
-from starlette.requests import Request
 
-from .fields import bool_field
+from ...fields import bool_field
 
 __all__ = ["on_model"]
 
 
-def on_model(model: BaseModel) -> Callable[[Request], Any]:
+def on_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
     """This is a helper to convert raw form data into Pydantic model with help of the
     FastAPI Dependency Injection system (Depends function):
 
@@ -30,8 +31,11 @@ def on_model(model: BaseModel) -> Callable[[Request], Any]:
 
         for field in model.__fields__.values():
             # convert checkbox value into bool type
-            if field.type_.__name__ == bool_field().__name__ and field.name in form:
-                form[field.name] = form[field.name] == "on"  # type: ignore
+            if field.type_.__name__ == bool_field().__name__:
+                if field.required:
+                    form[field.name] = field.name in form  # type: ignore
+                else:
+                    form[field.name] = True if field.name in form else field.default
 
         return model.parse_obj(form)
 
