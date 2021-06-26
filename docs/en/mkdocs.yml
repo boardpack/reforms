@@ -41,6 +41,7 @@ nav:
 - Usage:
   - usage/fields.md
   - usage/validators.md
+  - usage/helpers.md
 - help-reforms.md
 - contributing.md
 - release-notes.md
