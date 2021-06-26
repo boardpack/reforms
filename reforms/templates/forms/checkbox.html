@@ -1,2 +1,2 @@
-{% if label %}<label {% if field_id %}for="{{ field_id }}"{% endif %}>{{ label }}</label>{% endif -%}
-<input type="checkbox" name="{{ name }}" {% if field_id %}id="{{ field_id }}"{% endif %} {% if field_class %}class="{{ field_class }}"{% endif %} {% if placeholder %}placeholder="{{ placeholder }}"{% endif %} {% if not required and default %}checked{% endif %}>
+{% if label %}<label{% if field_id %} for="{{ field_id }}"{% endif %}>{{ label }}</label>{% endif -%}
+<input type="checkbox" name="{{ name }}"{% if field_id %} id="{{ field_id }}"{% endif %}{% if field_class %} class="{{ field_class }}"{% endif %}{% if placeholder %} placeholder="{{ placeholder }}"{% endif %}{% if not required and default %} checked{% endif %}>
