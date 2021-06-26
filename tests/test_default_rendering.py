@@ -123,7 +123,10 @@ def test_field_default(
 def test_field_without_default(
     field_factory: Callable[[], BaseField], html_part: str, create_form: Callable
 ):
+    exclude_fields = (bool_field,)
     form = create_form(field_factory)
     rendered_layout = str(form.field)
 
     assert html_part not in rendered_layout
+    if field_factory not in exclude_fields:
+        assert " required" in rendered_layout
