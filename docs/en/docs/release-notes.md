@@ -2,6 +2,7 @@
 
 ## Latest Changes
 
+* 🔧 Update on_model helper for FastAPI. PR [#5](https://github.com/boardpack/reforms/pull/5) by [@dukkee](https://github.com/dukkee).
 * 📝 Remove extra spaces from the rendered fields templates. PR [#4](https://github.com/boardpack/reforms/pull/4) by [@dukkee](https://github.com/dukkee).
 * 🐛 Replace Required validator with default value handling. PR [#3](https://github.com/boardpack/reforms/pull/3) by [@dukkee](https://github.com/dukkee).
 * ⬆ Bump dawidd6/action-download-artifact from 2.9.0 to 2.14.0. PR [#2](https://github.com/boardpack/reforms/pull/2) by [@dependabot[bot]](https://github.com/apps/dependabot).
