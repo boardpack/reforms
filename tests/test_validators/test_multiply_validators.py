@@ -4,7 +4,7 @@ import pytest
 
 from pydantic import BaseModel
 from reforms import Reforms, str_field
-from reforms.validators import AnyOf, BaseValidator, Length, NoneOf, Required
+from reforms.validators import AnyOf, BaseValidator, Length, NoneOf
 
 
 @pytest.mark.parametrize(
@@ -15,14 +15,14 @@ from reforms.validators import AnyOf, BaseValidator, Length, NoneOf, Required
             (
                 ("a", validator1, validator2)
                 for validator1, validator2 in itertools.combinations(
-                    (Required(), AnyOf(values=["a", "b", "c"]), Length(min=1)),
+                    (AnyOf(values=["a", "b", "c"]), Length(min=1)),
                     2,
                 )
             ),
             (
                 ("d", validator1, validator2)
                 for validator1, validator2 in itertools.combinations(
-                    (Required(), NoneOf(values=["a", "b", "c"]), Length(min=1)),
+                    (NoneOf(values=["a", "b", "c"]), Length(min=1)),
                     2,
                 )
             ),

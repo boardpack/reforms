@@ -1,17 +1,27 @@
 import itertools
-from typing import Callable, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 import pytest
 
 from pydantic import BaseModel
 from reforms import Reforms, bool_field, email_field, str_field
+from reforms.fields import BaseField
 
 
 @pytest.fixture
 def create_form(forms: Reforms) -> Callable:
-    def wrapped(field_factory: Callable, **kwargs: Mapping) -> Reforms.Form:
-        class MyModel(BaseModel):
-            field: field_factory(**kwargs)
+    def wrapped(
+        field_factory: Callable, default_value: Any = None, **kwargs: Mapping
+    ) -> Reforms.Form:
+        if default_value is None:
+
+            class MyModel(BaseModel):
+                field: field_factory(**kwargs)
+
+        else:
+
+            class MyModel(BaseModel):
+                field: field_factory(**kwargs) = default_value
 
         form = forms.Form(MyModel)
         return form
@@ -79,3 +89,41 @@ def test_render(field_factory: Callable, args: Sequence, create_form: Callable):
 
         content = '{name}="{value}"'.format(name=rendered_name, value=value)
         assert content in rendered_layout
+
+
+@pytest.mark.parametrize(
+    "field_factory, default_value, html_part",
+    [
+        (str_field, "value", 'value="value"'),
+        (bool_field, False, ""),
+        (bool_field, True, "checked"),
+        (email_field, "example@example.com", 'value="example@example.com"'),
+    ],
+)
+def test_field_default(
+    field_factory: Callable[[], BaseField],
+    default_value: Any,
+    html_part: str,
+    create_form: Callable,
+):
+    form = create_form(field_factory, default_value=default_value)
+    rendered_layout = str(form.field)
+
+    assert html_part in rendered_layout
+
+
+@pytest.mark.parametrize(
+    "field_factory, html_part",
+    [
+        (str_field, 'value="value"'),
+        (bool_field, "checked"),
+        (email_field, 'value="example@example.com"'),
+    ],
+)
+def test_field_without_default(
+    field_factory: Callable[[], BaseField], html_part: str, create_form: Callable
+):
+    form = create_form(field_factory)
+    rendered_layout = str(form.field)
+
+    assert html_part not in rendered_layout
