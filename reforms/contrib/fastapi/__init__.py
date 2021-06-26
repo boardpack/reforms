@@ -33,7 +33,7 @@ def on_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
             # convert checkbox value into bool type
             if field.type_.__name__ == bool_field().__name__:
                 if field.required:
-                    form[field.name] = field.name in form  # type: ignore
+                    form[field.name] = field.name in form
                 else:
                     form[field.name] = True if field.name in form else field.default
 
