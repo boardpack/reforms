@@ -37,11 +37,6 @@ be checked.
 using {min} and {max} if desired. Useful defaults are provided depending on the 
 existence of min and max.
 
-#### `Required`
-: validates that input was provided for this field.
-
-* `message: str = ""`: Error message to raise in case of a validation error.
-
 #### `AnyOf`
 : compares the incoming data to a sequence of valid inputs.
 
