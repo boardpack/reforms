@@ -58,26 +58,26 @@ field_settings = [
     ),
 ]
 
+fields_with_attrs_combinations = [
+    pytest.param(
+        field,
+        variant,
+        id=f"{field.__name__}-{'-'.join(i[0] for i in variant)}",
+    )
+    for field, settings in field_settings
+    for i in range(len(settings) + 1)
+    for variant in itertools.combinations(settings, i)
+]
+
 
 @pytest.mark.parametrize(
     "field_factory, args",
-    [
-        pytest.param(
-            field,
-            variant,
-            id=f"{field.__name__}-{'-'.join(i[0] for i in variant)}",
-        )
-        for field, settings in field_settings
-        for i in range(len(settings) + 1)
-        for variant in itertools.combinations(settings, i)
-    ],
+    fields_with_attrs_combinations,
 )
 def test_render(field_factory: Callable, args: Sequence, create_form: Callable):
     field_kwargs = {name: value for name, _, value in args}
     form = create_form(field_factory, **field_kwargs)
     rendered_layout = str(form.field)
-
-    print(rendered_layout)
 
     for field_name, rendered_name, value in args:
         if field_name == "label":
@@ -89,6 +89,21 @@ def test_render(field_factory: Callable, args: Sequence, create_form: Callable):
 
         content = '{name}="{value}"'.format(name=rendered_name, value=value)
         assert content in rendered_layout
+
+
+@pytest.mark.parametrize(
+    "field_factory, args",
+    fields_with_attrs_combinations,
+)
+def test_rendered_spaces(
+    field_factory: Callable, args: Sequence, create_form: Callable
+):
+    field_kwargs = {name: value for name, _, value in args}
+    form = create_form(field_factory, **field_kwargs)
+    rendered_layout = str(form.field)
+
+    for bad_variant in ("  ", " >"):
+        assert bad_variant not in rendered_layout
 
 
 @pytest.mark.parametrize(
