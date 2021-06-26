@@ -34,6 +34,8 @@ class BaseField(Representation):
             )
 
         cls._render_settings["name"] = field.name
+        cls._render_settings["required"] = field.required
+        cls._render_settings["default"] = field.default
 
         template: jinja2.Template = env.get_template(cls.template)
         return Markup(template.render(cls._render_settings))
