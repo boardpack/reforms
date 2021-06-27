@@ -145,3 +145,47 @@ def test_field_without_default(
     assert html_part not in rendered_layout
     if field_factory not in exclude_fields:
         assert " required" in rendered_layout
+
+
+@pytest.mark.parametrize(
+    "field_factory, default_value, disabled, expected",
+    [
+        (field_factory, default_value, disabled, disabled)
+        for disabled in (True, False)
+        for field_factory, default_value in (
+            (str_field, ""),
+            (bool_field, False),
+            (email_field, "e@e.com"),
+        )
+    ],
+)
+def test_field_disabled(
+    field_factory: Callable[[], BaseField],
+    default_value: Any,
+    disabled: bool,
+    expected: bool,
+    create_form: Callable,
+):
+    form = create_form(field_factory, default_value=default_value, disabled=disabled)
+    rendered_layout = str(form.field)
+    actual = " disabled" in rendered_layout
+
+    assert actual is expected
+
+
+@pytest.mark.parametrize(
+    "field_factory, default_value, disabled",
+    [
+        (str_field, None, True),
+    ],
+)
+def test_disabled_default_value_conflict(
+    field_factory: Callable[[], BaseField],
+    default_value: Any,
+    disabled: bool,
+    create_form: Callable,
+):
+    form = create_form(field_factory, default_value=default_value, disabled=disabled)
+
+    with pytest.raises(ValueError):
+        str(form.field)

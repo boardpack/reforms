@@ -12,6 +12,7 @@ def str_field(
     field_class: str = "",
     label: str = "",
     placeholder: str = "",
+    disabled: bool = False,
     render_kw: Optional[Dict[str, Any]] = None,
     validators: Optional[List[BaseValidator]] = None,
 ) -> type:
@@ -26,6 +27,7 @@ def str_field(
             "field_class": field_class,
             "label": label,
             "placeholder": placeholder,
+            "disabled": disabled,
             **render_kw,
         },
     )

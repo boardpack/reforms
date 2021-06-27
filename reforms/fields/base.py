@@ -37,5 +37,11 @@ class BaseField(Representation):
         cls._render_settings["required"] = field.required
         cls._render_settings["default"] = field.default
 
+        if field.required and cls._render_settings["disabled"]:
+            raise ValueError(
+                f"You can't render {field.name} because of it has disabled option and "
+                "doesn't have a default value"
+            )
+
         template: jinja2.Template = env.get_template(cls.template)
         return Markup(template.render(cls._render_settings))
