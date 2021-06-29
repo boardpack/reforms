@@ -82,14 +82,99 @@ $ pip install fastapi uvicorn python-multipart
 ```
 _(This script is complete, it should run "as is")_
 
-* Then you can create a FastAPI application and use this model to generate form 
-layout and validate data. Reforms has special `on_model` function, which works 
+* Then you can create a FastAPI or Starlette application and use this model to generate 
+form layout and validate data. Reforms has special `on_model` function, which works 
 with `Depends` from FastAPI to convert raw form data into pydantic model object. 
 Create a file `main.py` with:
 
-```Python hl_lines="8 19 23 28"
-{!../../../docs_src/first-steps/main.py!}
-```
+=== "FastAPI"
+
+    ```Python hl_lines="9 20 24 29"
+    import uvicorn
+    from fastapi import Depends, FastAPI, Request
+    from fastapi.responses import HTMLResponse, RedirectResponse
+    from fastapi.templating import Jinja2Templates
+    from starlette.status import HTTP_302_FOUND
+    from reforms import Reforms
+    from reforms.contrib.fastapi import on_model
+    
+    from models import UserModel
+    
+    app = FastAPI()
+    
+    forms = Reforms(package="reforms")
+    
+    templates = Jinja2Templates(directory="templates")
+    
+    
+    @app.get("/", response_class=HTMLResponse)
+    async def index(request: Request):
+        user_form = forms.Form(UserModel)
+    
+        return templates.TemplateResponse(
+            "index.html",
+            {"request": request, "form": user_form},
+        )
+    
+    
+    @app.post("/", response_class=RedirectResponse)
+    async def handle_form(form: UserModel = Depends(on_model(UserModel))):
+        print(form)
+        return RedirectResponse("/", status_code=HTTP_302_FOUND)
+    
+    
+    if __name__ == "__main__":
+        uvicorn.run(app)
+    ```
+
+
+=== "Starlette"
+
+    ```Python hl_lines="10 18 22 28"
+    import uvicorn
+    from starlette.applications import Starlette
+    from starlette.routing import Route
+    from starlette.requests import Request
+    from starlette.responses import RedirectResponse
+    from starlette.templating import Jinja2Templates
+    from starlette.status import HTTP_302_FOUND
+    from reforms import Reforms
+    
+    from models import UserModel
+    
+    forms = Reforms(package="reforms")
+    
+    templates = Jinja2Templates(directory="templates")
+    
+    
+    async def index(request: Request):
+        user_form = forms.Form(UserModel)
+    
+        return templates.TemplateResponse(
+            "index.html",
+            {"request": request, "form": user_form},
+        )
+    
+    
+    async def handle_form(request: Request):
+        raw_form = await request.form()
+        form = UserModel(**raw_form)
+    
+        print(form)
+        return RedirectResponse("/", status_code=HTTP_302_FOUND)
+    
+    
+    if __name__ == "__main__":
+        app = Starlette(
+            routes=[
+                Route('/', endpoint=index),
+                Route('/', endpoint=handle_form, methods=["POST"]),
+            ],
+        )
+        uvicorn.run(app)
+    ```
+
+
 _(This script is complete, it should run "as is")_
 
 * As the last coding step, you need to create a template (now **reforms** supports only 
