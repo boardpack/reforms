@@ -2,6 +2,7 @@
 
 ## Latest Changes
 
+* 📝 Add a snippet with Starlette to the docs. PR [#7](https://github.com/boardpack/reforms/pull/7) by [@dukkee](https://github.com/dukkee).
 * 👷 Add disabled option. PR [#6](https://github.com/boardpack/reforms/pull/6) by [@dukkee](https://github.com/dukkee).
 * 🔧 Update on_model helper for FastAPI. PR [#5](https://github.com/boardpack/reforms/pull/5) by [@dukkee](https://github.com/dukkee).
 * 📝 Remove extra spaces from the rendered fields templates. PR [#4](https://github.com/boardpack/reforms/pull/4) by [@dukkee](https://github.com/dukkee).
