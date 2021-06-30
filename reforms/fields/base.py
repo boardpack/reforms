@@ -1,47 +1,54 @@
 import itertools
-from typing import Any, Dict, Iterable, List
+from typing import Iterable, List
 
 import jinja2
-from markupsafe import Markup
+from pydantic import BaseModel
 from pydantic.fields import ModelField
 from pydantic.utils import Representation
 
 from ..validators import BaseValidator
+from ..widgets import BaseWidget
 
-__all__ = ["BaseField"]
+__all__ = (
+    "BaseField",
+    "RenderField",
+)
 
 
 class BaseField(Representation):
-    template: str
+    widget: BaseWidget
     _validators: List[BaseValidator] = []
-    _render_settings: Dict[str, Any] = {}
 
     @classmethod
     def __get_validators__(cls) -> Iterable[BaseValidator]:
         return itertools.chain(cls._validators)
 
-    @classmethod
-    def render(cls, env: jinja2.Environment, field: ModelField) -> str:
-        if not env or not isinstance(env, jinja2.Environment):
+
+class RenderField(BaseModel):
+    env: jinja2.Environment
+    data: ModelField
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    def __html__(self) -> str:
+        return str(self)
+
+    def __repr__(self) -> str:
+        return repr(self.data)
+
+    def __str__(self) -> str:
+        field_type: BaseField = self.data.type_
+
+        if self.data.required and field_type.widget.settings["disabled"]:
             raise ValueError(
-                "You can't render field outside of any form. Please define Form class "
-                "first."
-            )
-        if not cls.template:
-            raise ValueError(
-                "You can't render the field without the template reference. Please "
-                "define 'template' attribute in your field definition."
+                f"You can't render {self.data.name} because of it has disabled option "
+                "and doesn't have a default value"
             )
 
-        cls._render_settings["name"] = field.name
-        cls._render_settings["required"] = field.required
-        cls._render_settings["default"] = field.default
-
-        if field.required and cls._render_settings["disabled"]:
-            raise ValueError(
-                f"You can't render {field.name} because of it has disabled option and "
-                "doesn't have a default value"
-            )
-
-        template: jinja2.Template = env.get_template(cls.template)
-        return Markup(template.render(cls._render_settings))
+        return field_type.widget.render(
+            self.env,
+            name=self.data.name,
+            required=self.data.required,
+            default=self.data.default,
+        )

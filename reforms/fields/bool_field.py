@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import StrictBool
 
 from ..validators import BaseValidator
+from ..widgets import Checkbox
 from .base import BaseField
 
 __all__ = ["bool_field"]
@@ -20,15 +21,14 @@ def bool_field(
     render_kw = render_kw or {}
 
     namespace = dict(
-        template="forms/checkbox.html",
-        _validators=validators or [],
-        _render_settings={
-            "field_id": field_id,
-            "field_class": field_class,
-            "label": label,
-            "disabled": disabled,
+        widget=Checkbox(
+            field_id=field_id,
+            field_class=field_class,
+            label=label,
+            disabled=disabled,
             **render_kw,
-        },
+        ),
+        _validators=validators or [],
     )
 
     return type("bool_field", (StrictBool, BaseField), namespace)
