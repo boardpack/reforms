@@ -1,6 +1,7 @@
 from typing import Any, Dict, List, Optional
 
 from ..validators import BaseValidator
+from ..widgets import TextInput
 from .base import BaseField
 
 __all__ = ["str_field"]
@@ -19,17 +20,15 @@ def str_field(
     render_kw = render_kw or {}
 
     namespace = dict(
-        template="forms/input.html",
-        _validators=validators or [],
-        _render_settings={
-            "input_type": "text",
-            "field_id": field_id,
-            "field_class": field_class,
-            "label": label,
-            "placeholder": placeholder,
-            "disabled": disabled,
+        widget=TextInput(
+            field_id=field_id,
+            field_class=field_class,
+            label=label,
+            placeholder=placeholder,
+            disabled=disabled,
             **render_kw,
-        },
+        ),
+        _validators=validators or [],
     )
 
     return type("str_field", (str, BaseField), namespace)
