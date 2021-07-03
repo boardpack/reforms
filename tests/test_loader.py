@@ -1,8 +1,8 @@
 import sys
-
-import pytest
+from typing import Union
 
 import jinja2
+import pytest
 from reforms import Reforms
 
 
@@ -12,7 +12,7 @@ def default_package() -> str:
 
 
 @pytest.fixture
-def template_package(tmp_path):
+def template_package(tmp_path) -> str:
     package_name = "template_package"
 
     package = tmp_path / package_name
@@ -28,39 +28,54 @@ def template_package(tmp_path):
     sys.path.remove(str(tmp_path))
 
 
-def test_forms_with_directory(tmpdir, default_package):
+def get_loader(
+    forms: Reforms, index: int
+) -> Union[jinja2.PackageLoader, jinja2.FileSystemLoader]:
+    return forms.env.loader.loaders[index]
+
+
+def check_package_loader(
+    forms: Reforms, expected_package_name: str, index: int
+) -> None:
+    assert isinstance(get_loader(forms, index), jinja2.PackageLoader)
+    assert get_loader(forms, index).package_name == expected_package_name
+
+
+def check_directory_loader(forms: Reforms, expected_path: str, index: int) -> None:
+    assert isinstance(get_loader(forms, index), jinja2.FileSystemLoader)
+    assert expected_path in get_loader(forms, index).searchpath
+
+
+@pytest.mark.parametrize(
+    ("directory", "package"),
+    [
+        (None, None),
+        (pytest.lazy_fixture("tmpdir"), None),
+        (None, pytest.lazy_fixture("template_package")),
+        (pytest.lazy_fixture("tmpdir"), pytest.lazy_fixture("template_package")),
+    ],
+)
+def test_default_loader(directory, package, default_package):
+    forms = Reforms(directory=directory, package=package)
+
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+    assert len(forms.env.loader.loaders) > 0
+
+    check_package_loader(forms, default_package, index=-1)
+
+
+def test_directory_loader(tmpdir):
     forms = Reforms(directory=str(tmpdir))
-    loaders = forms.env.loader.loaders
-
-    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
-    assert len(loaders) == 2
-    assert isinstance(loaders[0], jinja2.FileSystemLoader)
-    assert str(tmpdir) in loaders[0].searchpath
-    assert isinstance(loaders[1], jinja2.PackageLoader)
-    assert loaders[1].package_name == default_package
+    check_directory_loader(forms, str(tmpdir), index=0)
 
 
-def test_forms_with_package(template_package, default_package):
+def test_package_loader(template_package: str):
     forms = Reforms(package=template_package)
-    loaders = forms.env.loader.loaders
-
-    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
-    assert len(loaders) == 2
-    assert isinstance(loaders[0], jinja2.PackageLoader)
-    assert loaders[0].package_name == template_package
-    assert isinstance(loaders[1], jinja2.PackageLoader)
-    assert loaders[1].package_name == default_package
+    check_package_loader(forms, template_package, index=0)
 
 
-def test_forms_with_directory_and_package(tmpdir, template_package, default_package):
+def test_package_and_directory_loader(tmpdir, template_package: str):
     forms = Reforms(directory=str(tmpdir), package=template_package)
-    loaders = forms.env.loader.loaders
 
-    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
-    assert len(loaders) == 3
-    assert isinstance(loaders[0], jinja2.FileSystemLoader)
-    assert str(tmpdir) in loaders[0].searchpath
-    assert isinstance(loaders[1], jinja2.PackageLoader)
-    assert loaders[1].package_name == template_package
-    assert isinstance(loaders[2], jinja2.PackageLoader)
-    assert loaders[2].package_name == default_package
+    check_directory_loader(forms, str(tmpdir), index=0)
+    check_package_loader(forms, template_package, index=1)

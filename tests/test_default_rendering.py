@@ -2,7 +2,6 @@ import itertools
 from typing import Any, Callable, Mapping, Sequence
 
 import pytest
-
 from pydantic import BaseModel
 from reforms import Reforms, bool_field, email_field, str_field
 from reforms.fields import BaseField
@@ -23,8 +22,7 @@ def create_form(forms: Reforms) -> Callable:
             class MyModel(BaseModel):
                 field: field_factory(**kwargs) = default_value
 
-        form = forms.Form(MyModel)
-        return form
+        return forms.Form(MyModel)
 
     return wrapped
 
@@ -60,9 +58,7 @@ field_settings = [
 
 fields_with_attrs_combinations = [
     pytest.param(
-        field,
-        variant,
-        id=f"{field.__name__}-{'-'.join(i[0] for i in variant)}",
+        field, variant, id=f"{field.__name__}-{'-'.join(i[0] for i in variant)}"
     )
     for field, settings in field_settings
     for i in range(len(settings) + 1)
@@ -70,10 +66,7 @@ fields_with_attrs_combinations = [
 ]
 
 
-@pytest.mark.parametrize(
-    "field_factory, args",
-    fields_with_attrs_combinations,
-)
+@pytest.mark.parametrize("field_factory, args", fields_with_attrs_combinations)
 def test_render(field_factory: Callable, args: Sequence, create_form: Callable):
     field_kwargs = {name: value for name, _, value in args}
     form = create_form(field_factory, **field_kwargs)
@@ -87,14 +80,10 @@ def test_render(field_factory: Callable, args: Sequence, create_form: Callable):
 
             continue
 
-        content = '{name}="{value}"'.format(name=rendered_name, value=value)
-        assert content in rendered_layout
+        assert f'{rendered_name}="{value}"' in rendered_layout
 
 
-@pytest.mark.parametrize(
-    "field_factory, args",
-    fields_with_attrs_combinations,
-)
+@pytest.mark.parametrize("field_factory, args", fields_with_attrs_combinations)
 def test_rendered_spaces(
     field_factory: Callable, args: Sequence, create_form: Callable
 ):
@@ -175,9 +164,7 @@ def test_field_disabled(
 
 @pytest.mark.parametrize(
     "field_factory, default_value, disabled",
-    [
-        (str_field, None, True),
-    ],
+    [(field, None, True) for field in (bool_field, email_field, str_field)],
 )
 def test_disabled_default_value_conflict(
     field_factory: Callable[[], BaseField],

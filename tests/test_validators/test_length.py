@@ -1,7 +1,6 @@
 from typing import Callable
 
 import pytest
-
 from pydantic import BaseModel, ValidationError
 from reforms import Reforms, str_field
 from reforms.validators import Length
@@ -36,10 +35,7 @@ def test_bad_length_raises(min_value, max_value, create_form):
         form(field="foobar")
 
 
-@pytest.mark.parametrize(
-    "min_value, max_value",
-    [(-1, -1), (5, 2)],
-)
+@pytest.mark.parametrize("min_value, max_value", [(-1, -1), (5, 2)])
 def test_bad_length_init_raises(min_value, max_value, create_form):
     with pytest.raises(ValidationError):
         create_form(min_value=min_value, max_value=max_value)

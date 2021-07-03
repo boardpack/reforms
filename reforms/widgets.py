@@ -4,12 +4,7 @@ from typing import Any, Dict
 import jinja2
 from markupsafe import Markup
 
-__all__ = (
-    "BaseWidget",
-    "TextInput",
-    "EmailInput",
-    "Checkbox",
-)
+__all__ = ("BaseWidget", "Input", "TextInput", "EmailInput", "Checkbox")
 
 
 class BaseWidget:
@@ -81,5 +76,6 @@ class EmailInput(Input):
     template: str = "email.html"
 
 
-class Checkbox(BaseWidget):
+class Checkbox(Input):
+    input_type: str = "checkbox"
     template: str = "checkbox.html"
