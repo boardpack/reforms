@@ -1,9 +1,8 @@
-from typing import Any, Callable, Type
+from typing import Any, Callable, Dict, Type
 
 from fastapi.requests import Request
-from pydantic import BaseModel
-
-from ...fields import bool_field
+from pydantic import BaseModel, StrictBool
+from pydantic.fields import ModelField
 
 __all__ = ["from_model"]
 
@@ -25,16 +24,18 @@ def from_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
 
     """
 
+    def _convert_bool_value(field: ModelField, form: Dict[str, Any]) -> bool:
+        if field.required or field.name in form:
+            return field.name in form
+
+        return field.default
+
     async def _from_model(request: Request) -> Any:
         form = dict(await request.form())
 
         for field in model.__fields__.values():
-            # convert checkbox value into bool type
-            if field.type_.__name__ == bool_field().__name__:
-                if field.required:
-                    form[field.name] = field.name in form  # type: ignore
-                else:
-                    form[field.name] = True if field.name in form else field.default
+            if issubclass(field.type_, StrictBool):
+                form[field.name] = _convert_bool_value(field, form)
 
         return model.parse_obj(form)
 
