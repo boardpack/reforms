@@ -5,10 +5,10 @@ from pydantic import BaseModel
 
 from ...fields import bool_field
 
-__all__ = ["on_model"]
+__all__ = ["from_model"]
 
 
-def on_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
+def from_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
     """This is a helper to convert raw form data into Pydantic model with help of the
     FastAPI Dependency Injection system (Depends function):
 
@@ -19,13 +19,13 @@ def on_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
         # ...
 
         @app.post("/", response_class=RedirectResponse)
-        async def handle_form(form: UserModel = Depends(on_model(UserModel))):
+        async def handle_form(form: from_model(UserModel) = Depends()):
             print(form)
             return RedirectResponse("/", status_code=HTTP_302_FOUND)
 
     """
 
-    async def _on_model(request: Request) -> Any:
+    async def _from_model(request: Request) -> Any:
         form = dict(await request.form())
 
         for field in model.__fields__.values():
@@ -38,4 +38,4 @@ def on_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
 
         return model.parse_obj(form)
 
-    return _on_model
+    return _from_model

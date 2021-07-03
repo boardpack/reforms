@@ -5,7 +5,7 @@ from fastapi import Depends, FastAPI
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
 from reforms import bool_field, email_field, str_field
-from reforms.contrib.fastapi import on_model
+from reforms.contrib.fastapi import from_model
 
 
 class UserModel(BaseModel):
@@ -26,7 +26,7 @@ def create_app() -> Callable:
         test_app = FastAPI()
 
         @test_app.post("/")
-        async def index(form: model = Depends(on_model(model))):
+        async def index(form: from_model(model) = Depends()):
             return form
 
         return test_app
