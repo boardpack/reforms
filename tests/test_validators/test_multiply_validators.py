@@ -2,7 +2,7 @@ import itertools
 
 import pytest
 from pydantic import BaseModel
-from reforms import Reforms, str_field
+from reforms import Reforms, StringField
 from reforms.validators import AnyOf, BaseValidator, Length, NoneOf
 
 
@@ -33,7 +33,7 @@ def test_multiply_validators_passes(
     forms: Reforms,
 ):
     class MyForm(BaseModel):
-        field: str_field(validators=[validator1, validator2])
+        field: StringField(validators=[validator1, validator2])
 
     form = forms.Form(MyForm)
     form(field=test_value)

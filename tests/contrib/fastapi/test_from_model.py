@@ -4,20 +4,20 @@ import pytest
 from fastapi import Depends, FastAPI
 from fastapi.testclient import TestClient
 from pydantic import BaseModel
-from reforms import bool_field, email_field, str_field
+from reforms import BooleanField, EmailField, StringField
 from reforms.contrib.fastapi import from_model
 
 
 class UserModel(BaseModel):
-    name: str_field()
-    email: email_field()
-    has_github: bool_field()
+    name: StringField()
+    email: EmailField()
+    has_github: BooleanField()
 
 
 class UserModelWithBoolDefault(BaseModel):
-    name: str_field() = "John"
-    email: email_field()
-    has_github: bool_field() = True
+    name: StringField() = "John"
+    email: EmailField()
+    has_github: BooleanField() = True
 
 
 @pytest.fixture

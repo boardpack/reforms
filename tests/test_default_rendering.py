@@ -3,7 +3,7 @@ from typing import Any, Callable, Mapping, Sequence
 
 import pytest
 from pydantic import BaseModel
-from reforms import Reforms, bool_field, email_field, str_field
+from reforms import BooleanField, EmailField, Reforms, StringField
 from reforms.fields import BaseField
 
 
@@ -29,7 +29,7 @@ def create_form(forms: Reforms) -> Callable:
 
 field_settings = [
     (
-        str_field,
+        StringField,
         (
             ("field_id", "id", "exampleId"),
             ("field_class", "class", "example-class"),
@@ -38,7 +38,7 @@ field_settings = [
         ),
     ),
     (
-        bool_field,
+        BooleanField,
         (
             ("field_id", "id", "exampleId"),
             ("field_class", "class", "example-class"),
@@ -46,7 +46,7 @@ field_settings = [
         ),
     ),
     (
-        email_field,
+        EmailField,
         (
             ("field_id", "id", "exampleId"),
             ("field_class", "class", "example-class"),
@@ -98,10 +98,10 @@ def test_rendered_spaces(
 @pytest.mark.parametrize(
     "field_factory, default_value, html_part",
     [
-        (str_field, "value", 'value="value"'),
-        (bool_field, False, ""),
-        (bool_field, True, "checked"),
-        (email_field, "example@example.com", 'value="example@example.com"'),
+        (StringField, "value", 'value="value"'),
+        (BooleanField, False, ""),
+        (BooleanField, True, "checked"),
+        (EmailField, "example@example.com", 'value="example@example.com"'),
     ],
 )
 def test_field_default(
@@ -119,15 +119,15 @@ def test_field_default(
 @pytest.mark.parametrize(
     "field_factory, html_part",
     [
-        (str_field, 'value="value"'),
-        (bool_field, "checked"),
-        (email_field, 'value="example@example.com"'),
+        (StringField, 'value="value"'),
+        (BooleanField, "checked"),
+        (EmailField, 'value="example@example.com"'),
     ],
 )
 def test_field_without_default(
     field_factory: Callable[[], BaseField], html_part: str, create_form: Callable
 ):
-    exclude_fields = (bool_field,)
+    exclude_fields = (BooleanField,)
     form = create_form(field_factory)
     rendered_layout = str(form.field)
 
@@ -142,9 +142,9 @@ def test_field_without_default(
         (field_factory, default_value, disabled, disabled)
         for disabled in (True, False)
         for field_factory, default_value in (
-            (str_field, ""),
-            (bool_field, False),
-            (email_field, "e@e.com"),
+            (StringField, ""),
+            (BooleanField, False),
+            (EmailField, "e@e.com"),
         )
     ],
 )
@@ -164,7 +164,7 @@ def test_field_disabled(
 
 @pytest.mark.parametrize(
     "field_factory, default_value, disabled",
-    [(field, None, True) for field in (bool_field, email_field, str_field)],
+    [(field, None, True) for field in (BooleanField, EmailField, StringField)],
 )
 def test_disabled_default_value_conflict(
     field_factory: Callable[[], BaseField],

@@ -5,7 +5,7 @@
 Currently, reforms supports the next fields, which are expanded versions of 
 well-known types.
 
-#### `bool_field`
+#### `BooleanField`
 : 
 
 * `widget: Type[BaseWidget] = Checkbox`: a widget class, which is responsible for the
@@ -19,7 +19,7 @@ field template;
 * `validators: Optional[List[BaseValidator]] = None`: a list of validators that will
  be described in one of the next parts.
 
-#### `str_field`
+#### `StringField`
 : 
 
 * `widget: Type[BaseWidget] = TextInput`: a widget class, which is responsible for the
@@ -34,7 +34,7 @@ field template;
 * `validators: Optional[List[BaseValidator]] = None`: a list of validators that will
  be described in one of the next parts.
 
-#### `email_field`
+#### `EmailField`
 : implements the input string that must be a valid email address.
 
 * `widget: Type[BaseWidget] = EmailInput`: a widget class, which is responsible for 

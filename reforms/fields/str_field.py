@@ -4,10 +4,10 @@ from ..validators import BaseValidator
 from ..widgets import BaseWidget, TextInput
 from .base import BaseField
 
-__all__ = ["str_field"]
+__all__ = ["StringField"]
 
 
-def str_field(
+def StringField(
     *,
     widget: Type[BaseWidget] = TextInput,
     field_id: str = "",
@@ -30,4 +30,4 @@ def str_field(
         _validators=validators or [],
     )
 
-    return type("str_field", (str, BaseField), namespace)
+    return type("StringField", (str, BaseField), namespace)

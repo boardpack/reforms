@@ -1,4 +1,4 @@
 from .base import BaseField
-from .bool_field import bool_field
-from .email_field import email_field
-from .str_field import str_field
+from .bool_field import BooleanField
+from .email_field import EmailField
+from .str_field import StringField

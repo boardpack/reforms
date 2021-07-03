@@ -1,13 +1,13 @@
 from pydantic import BaseModel, ValidationError, validator
-from reforms import bool_field, str_field
+from reforms import BooleanField, StringField
 
 
 class UserModel(BaseModel):
-    name: str_field()
-    is_admin: bool_field()
-    username: str_field()
-    password1: str_field()
-    password2: str_field()
+    name: StringField()
+    is_admin: BooleanField()
+    username: StringField()
+    password1: StringField()
+    password2: StringField()
 
     @validator("name")
     def name_must_contain_space(cls, v):

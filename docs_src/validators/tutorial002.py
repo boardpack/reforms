@@ -1,11 +1,11 @@
 from pydantic import BaseModel, ValidationError
-from reforms import str_field
+from reforms import StringField
 from reforms.validators import Length
 
 
 class ContactUsModel(BaseModel):
-    name: str_field(validators=[Length(min=5)])
-    message: str_field()
+    name: StringField(validators=[Length(min=5)])
+    message: StringField()
 
 
 contact = ContactUsModel(name="Roman", message="Some message")

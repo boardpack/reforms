@@ -2,12 +2,16 @@ from typing import Any
 
 import pytest
 from pydantic import BaseModel, Field, ValidationError
-from reforms import bool_field, email_field, str_field
+from reforms import BooleanField, EmailField, StringField
 
 
 @pytest.mark.parametrize(
     "field_type, value",
-    [(str_field, "value"), (bool_field, False), (email_field, "example@example.com")],
+    [
+        (StringField, "value"),
+        (BooleanField, False),
+        (EmailField, "example@example.com"),
+    ],
 )
 def test_field(field_type: Field, value: Any):
     class MyForm(BaseModel):
@@ -19,7 +23,7 @@ def test_field(field_type: Field, value: Any):
 
 @pytest.mark.parametrize(
     "field_type, value",
-    [(str_field, None), (bool_field, "False"), (email_field, "example@.com")],
+    [(StringField, None), (BooleanField, "False"), (EmailField, "example@.com")],
 )
 def test_field_fail(field_type: Field, value: Any):
     class MyForm(BaseModel):
@@ -31,7 +35,11 @@ def test_field_fail(field_type: Field, value: Any):
 
 @pytest.mark.parametrize(
     "field_type, default_value",
-    [(str_field, "value"), (bool_field, False), (email_field, "example@example.com")],
+    [
+        (StringField, "value"),
+        (BooleanField, False),
+        (EmailField, "example@example.com"),
+    ],
 )
 def test_field_default(field_type: Field, default_value: Any):
     class MyForm(BaseModel):
