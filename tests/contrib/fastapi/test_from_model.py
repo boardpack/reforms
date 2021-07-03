@@ -15,7 +15,7 @@ class UserModel(BaseModel):
 
 
 class UserModelWithBoolDefault(BaseModel):
-    name: str_field()
+    name: str_field() = "John"
     email: email_field()
     has_github: bool_field() = True
 
@@ -32,6 +32,14 @@ def create_app() -> Callable:
         return test_app
 
     return _create_app
+
+
+@pytest.fixture
+def client(
+    create_app: Callable[[Type[BaseModel]], FastAPI], model: Type[BaseModel]
+) -> TestClient:
+    app = create_app(model)
+    return TestClient(app)
 
 
 @pytest.mark.parametrize(
@@ -52,18 +60,17 @@ def create_app() -> Callable:
             {"name": "name", "email": "email@e.com"},
             {"name": "name", "email": "email@e.com", "has_github": True},
         ),
+        (
+            UserModelWithBoolDefault,
+            {"email": "email@e.com"},
+            {"name": "John", "email": "email@e.com", "has_github": True},
+        ),
     ],
 )
 def test_on_model(
-    model: Type[BaseModel],
+    client: TestClient,
     input_data: Dict[str, str],
     expected_data: Dict[str, str],
-    create_app: Callable[[Type[BaseModel]], FastAPI],
 ):
-    app = create_app(model)
-    client = TestClient(app)
-
     response = client.post("/", data=input_data)
-    response.raise_for_status()
-
     assert response.json() == expected_data
