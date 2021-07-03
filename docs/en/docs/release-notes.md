@@ -2,6 +2,7 @@
 
 ## Latest Changes
 
+* Add fixes to codebase and tests. PR [#10](https://github.com/boardpack/reforms/pull/10) by [@dukkee](https://github.com/dukkee).
 * 👷 Add widgets, update templates overload. PR [#8](https://github.com/boardpack/reforms/pull/8) by [@dukkee](https://github.com/dukkee).
 * 🔧 Update codecov.yml. PR [#9](https://github.com/boardpack/reforms/pull/9) by [@dukkee](https://github.com/dukkee).
 * 📝 Add a snippet with Starlette to the docs. PR [#7](https://github.com/boardpack/reforms/pull/7) by [@dukkee](https://github.com/dukkee).
