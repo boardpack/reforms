@@ -28,14 +28,14 @@ def from_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
         if field.required or field.name in form:
             return field.name in form
 
-        return field.default
+        return bool(field.default)
 
     async def _from_model(request: Request) -> Any:
         form = dict(await request.form())
 
         for field in model.__fields__.values():
             if issubclass(field.type_, StrictBool):
-                form[field.name] = _convert_bool_value(field, form)
+                form[field.name] = _convert_bool_value(field, form)  # type: ignore
 
         return model.parse_obj(form)
 
