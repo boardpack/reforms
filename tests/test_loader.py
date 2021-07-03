@@ -34,6 +34,18 @@ def get_loader(
     return forms.env.loader.loaders[index]
 
 
+def check_package_loader(
+    forms: Reforms, expected_package_name: str, index: int
+) -> None:
+    assert isinstance(get_loader(forms, index), jinja2.PackageLoader)
+    assert get_loader(forms, index).package_name == expected_package_name
+
+
+def check_directory_loader(forms: Reforms, expected_path: str, index: int) -> None:
+    assert isinstance(get_loader(forms, index), jinja2.FileSystemLoader)
+    assert expected_path in get_loader(forms, index).searchpath
+
+
 @pytest.mark.parametrize(
     ("directory", "package"),
     [
@@ -47,31 +59,23 @@ def test_default_loader(directory, package, default_package):
     forms = Reforms(directory=directory, package=package)
 
     assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
-
     assert len(forms.env.loader.loaders) > 0
-    assert isinstance(get_loader(forms, -1), jinja2.PackageLoader)
-    assert get_loader(forms, -1).package_name == default_package
+
+    check_package_loader(forms, default_package, index=-1)
 
 
 def test_directory_loader(tmpdir):
     forms = Reforms(directory=str(tmpdir))
-
-    assert isinstance(get_loader(forms, 0), jinja2.FileSystemLoader)
-    assert str(tmpdir) in get_loader(forms, 0).searchpath
+    check_directory_loader(forms, str(tmpdir), index=0)
 
 
 def test_package_loader(template_package: str):
     forms = Reforms(package=template_package)
-
-    assert isinstance(get_loader(forms, 0), jinja2.PackageLoader)
-    assert get_loader(forms, 0).package_name == template_package
+    check_package_loader(forms, template_package, index=0)
 
 
 def test_package_and_directory_loader(tmpdir, template_package: str):
     forms = Reforms(directory=str(tmpdir), package=template_package)
 
-    assert isinstance(get_loader(forms, 0), jinja2.FileSystemLoader)
-    assert str(tmpdir) in get_loader(forms, 0).searchpath
-
-    assert isinstance(get_loader(forms, 1), jinja2.PackageLoader)
-    assert get_loader(forms, 1).package_name == template_package
+    check_directory_loader(forms, str(tmpdir), index=0)
+    check_package_loader(forms, template_package, index=1)
