@@ -22,8 +22,7 @@ def create_form(forms: Reforms) -> Callable:
             class MyModel(BaseModel):
                 field: field_factory(**kwargs) = default_value
 
-        form = forms.Form(MyModel)
-        return form
+        return forms.Form(MyModel)
 
     return wrapped
 
@@ -81,8 +80,7 @@ def test_render(field_factory: Callable, args: Sequence, create_form: Callable):
 
             continue
 
-        content = '{name}="{value}"'.format(name=rendered_name, value=value)
-        assert content in rendered_layout
+        assert f'{rendered_name}="{value}"' in rendered_layout
 
 
 @pytest.mark.parametrize("field_factory, args", fields_with_attrs_combinations)
@@ -165,7 +163,8 @@ def test_field_disabled(
 
 
 @pytest.mark.parametrize(
-    "field_factory, default_value, disabled", [(str_field, None, True)]
+    "field_factory, default_value, disabled",
+    [(field, None, True) for field in (bool_field, email_field, str_field)],
 )
 def test_disabled_default_value_conflict(
     field_factory: Callable[[], BaseField],
