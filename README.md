@@ -81,7 +81,7 @@ $ pip install fastapi uvicorn python-multipart
 from pydantic import BaseModel
 
 from reforms import StringField, BooleanField, EmailField
-from reforms.validators import Required, Length
+from reforms.validators import Length
 
 
 class UserModel(BaseModel):
@@ -89,19 +89,18 @@ class UserModel(BaseModel):
         label="First Name",
         field_id="firstName",
         placeholder="John",
-        validators=[Required(), Length(min=5)],
+        validators=[Length(min=5)],
     )
     last_name: StringField(
         label="Last Name",
         field_id="lastName",
         placeholder="Doe",
-        validators=[Required(), Length(min=5)],
+        validators=[Length(min=5)],
     )
     email: EmailField(
         label="Email",
         field_id="email",
         placeholder="john.doe@example.com",
-        validators=[Required()],
     )
     has_github: BooleanField(label="Has Github account?", field_id="hasGithub") = False
 
