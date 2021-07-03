@@ -68,4 +68,5 @@ doc = [
 
 [tool.isort]
 profile = "black"
-known_first_party = ["reforms", "pydantic", "jinja2", "markupsafe", "starlette"]
+known_first_party = ["reforms", "pydantic", "jinja2", "markupsafe", "starlette",
+"pytest", "fastapi"]
