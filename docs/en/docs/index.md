@@ -83,20 +83,20 @@ $ pip install fastapi uvicorn python-multipart
 _(This script is complete, it should run "as is")_
 
 * Then you can create a FastAPI or Starlette application and use this model to generate 
-form layout and validate data. Reforms has special `on_model` function, which works 
+form layout and validate data. Reforms has special `from_model` function, which works 
 with `Depends` from FastAPI to convert raw form data into pydantic model object. 
 Create a file `main.py` with:
 
 === "FastAPI"
 
-    ```Python hl_lines="9 20 24 29"
+    ```Python hl_lines="7 9 20 24 29"
     import uvicorn
     from fastapi import Depends, FastAPI, Request
     from fastapi.responses import HTMLResponse, RedirectResponse
     from fastapi.templating import Jinja2Templates
     from starlette.status import HTTP_302_FOUND
     from reforms import Reforms
-    from reforms.contrib.fastapi import on_model
+    from reforms.contrib.fastapi import from_model
     
     from models import UserModel
     
@@ -118,7 +118,7 @@ Create a file `main.py` with:
     
     
     @app.post("/", response_class=RedirectResponse)
-    async def handle_form(form: UserModel = Depends(on_model(UserModel))):
+    async def handle_form(form: from_model(UserModel) = Depends()):
         print(form)
         return RedirectResponse("/", status_code=HTTP_302_FOUND)
     

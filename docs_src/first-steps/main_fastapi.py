@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_302_FOUND
 from reforms import Reforms
-from reforms.contrib.fastapi import on_model
+from reforms.contrib.fastapi import from_model
 
 from models import UserModel
 
@@ -26,7 +26,7 @@ async def index(request: Request):
 
 
 @app.post("/", response_class=RedirectResponse)
-async def handle_form(form: UserModel = Depends(on_model(UserModel))):
+async def handle_form(form: from_model(UserModel) = Depends()):
     print(form)
     return RedirectResponse("/", status_code=HTTP_302_FOUND)
 
