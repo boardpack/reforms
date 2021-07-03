@@ -6,10 +6,10 @@ from ..validators import BaseValidator
 from ..widgets import BaseWidget, EmailInput
 from .base import BaseField
 
-__all__ = ["email_field"]
+__all__ = ["EmailField"]
 
 
-def email_field(
+def EmailField(
     *,
     widget: Type[BaseWidget] = EmailInput,
     field_id: str = "",
@@ -32,4 +32,4 @@ def email_field(
         _validators=validators or [],
     )
 
-    return type("email_field", (EmailStr, BaseField), namespace)
+    return type("EmailField", (EmailStr, BaseField), namespace)

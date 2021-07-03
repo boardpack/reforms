@@ -6,10 +6,10 @@ from ..validators import BaseValidator
 from ..widgets import BaseWidget, Checkbox
 from .base import BaseField
 
-__all__ = ["bool_field"]
+__all__ = ["BooleanField"]
 
 
-def bool_field(
+def BooleanField(
     *,
     widget: Type[BaseWidget] = Checkbox,
     field_id: str = "",
@@ -30,4 +30,4 @@ def bool_field(
         _validators=validators or [],
     )
 
-    return type("bool_field", (StrictBool, BaseField), namespace)
+    return type("BooleanField", (StrictBool, BaseField), namespace)

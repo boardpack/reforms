@@ -1,7 +1,7 @@
 from typing import Callable
 
 from pydantic import BaseModel, ValidationError
-from reforms import str_field
+from reforms import StringField
 
 
 def has_lines(n: int = 2) -> Callable:
@@ -15,7 +15,7 @@ def has_lines(n: int = 2) -> Callable:
 
 
 class MessageModel(BaseModel):
-    content: str_field(validators=[has_lines(n=3)])
+    content: StringField(validators=[has_lines(n=3)])
 
 
 contact = MessageModel(

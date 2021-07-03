@@ -2,7 +2,7 @@ from typing import Any, Callable, List
 
 import pytest
 from pydantic import BaseModel, ValidationError
-from reforms import Reforms, str_field
+from reforms import Reforms, StringField
 from reforms.validators import AnyOf
 
 
@@ -16,7 +16,7 @@ def create_form(forms: Reforms) -> Callable:
             args["message"] = message
 
         class MyForm(BaseModel):
-            field: str_field(validators=[AnyOf(**args)])
+            field: StringField(validators=[AnyOf(**args)])
 
         return forms.Form(MyForm)
 

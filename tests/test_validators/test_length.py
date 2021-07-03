@@ -2,7 +2,7 @@ from typing import Callable
 
 import pytest
 from pydantic import BaseModel, ValidationError
-from reforms import Reforms, str_field
+from reforms import Reforms, StringField
 from reforms.validators import Length
 
 
@@ -12,7 +12,7 @@ def create_form(forms: Reforms) -> Callable:
         min_value: int = -1, max_value: int = -1, message: str = ""
     ) -> Reforms.Form:
         class MyForm(BaseModel):
-            field: str_field(
+            field: StringField(
                 validators=[Length(min=min_value, max=max_value, message=message)]
             )
 

@@ -12,8 +12,8 @@ def from_model(model: Type[BaseModel]) -> Callable[[Request], Any]:
     FastAPI Dependency Injection system (Depends function):
 
         class UserModel(pydantic.BaseModel):
-            name = reforms.str_field(...)
-            email = reforms.email_field(...)
+            name = reforms.StringField(...)
+            email = reforms.EmailField(...)
 
         # ...
 
