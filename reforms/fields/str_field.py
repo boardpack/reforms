@@ -1,7 +1,7 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Type
 
 from ..validators import BaseValidator
-from ..widgets import TextInput
+from ..widgets import BaseWidget, TextInput
 from .base import BaseField
 
 __all__ = ["str_field"]
@@ -9,6 +9,7 @@ __all__ = ["str_field"]
 
 def str_field(
     *,
+    widget: Type[BaseWidget] = TextInput,
     field_id: str = "",
     field_class: str = "",
     label: str = "",
@@ -20,7 +21,7 @@ def str_field(
     render_kw = render_kw or {}
 
     namespace = dict(
-        widget=TextInput(
+        widget=widget(
             field_id=field_id,
             field_class=field_class,
             label=label,

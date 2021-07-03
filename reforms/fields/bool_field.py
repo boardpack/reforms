@@ -1,9 +1,9 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Type
 
 from pydantic import StrictBool
 
 from ..validators import BaseValidator
-from ..widgets import Checkbox
+from ..widgets import BaseWidget, Checkbox
 from .base import BaseField
 
 __all__ = ["bool_field"]
@@ -11,6 +11,7 @@ __all__ = ["bool_field"]
 
 def bool_field(
     *,
+    widget: Type[BaseWidget] = Checkbox,
     field_id: str = "",
     field_class: str = "",
     label: str = "",
@@ -21,7 +22,7 @@ def bool_field(
     render_kw = render_kw or {}
 
     namespace = dict(
-        widget=Checkbox(
+        widget=widget(
             field_id=field_id,
             field_class=field_class,
             label=label,

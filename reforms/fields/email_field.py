@@ -1,9 +1,9 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Type
 
 from pydantic import EmailStr
 
 from ..validators import BaseValidator
-from ..widgets import EmailInput
+from ..widgets import BaseWidget, EmailInput
 from .base import BaseField
 
 __all__ = ["email_field"]
@@ -11,6 +11,7 @@ __all__ = ["email_field"]
 
 def email_field(
     *,
+    widget: Type[BaseWidget] = EmailInput,
     field_id: str = "",
     field_class: str = "",
     label: str = "",
@@ -22,7 +23,7 @@ def email_field(
     render_kw = render_kw or {}
 
     namespace = dict(
-        widget=EmailInput(
+        widget=widget(
             field_id=field_id,
             field_class=field_class,
             label=label,
