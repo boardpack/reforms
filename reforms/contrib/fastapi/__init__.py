@@ -1,7 +1,6 @@
 from typing import Any, Callable, Type
 
 from fastapi.requests import Request
-
 from pydantic import BaseModel
 
 from ...fields import bool_field

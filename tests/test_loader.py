@@ -1,8 +1,7 @@
 import sys
 
-import pytest
-
 import jinja2
+import pytest
 from reforms import Reforms
 
 
@@ -12,7 +11,7 @@ def default_package() -> str:
 
 
 @pytest.fixture
-def template_package(tmp_path):
+def template_package(tmp_path) -> str:
     package_name = "template_package"
 
     package = tmp_path / package_name
@@ -28,7 +27,7 @@ def template_package(tmp_path):
     sys.path.remove(str(tmp_path))
 
 
-def test_forms_with_directory(tmpdir, default_package):
+def test_environment_with_directory(tmpdir, default_package: str):
     forms = Reforms(directory=str(tmpdir))
     loaders = forms.env.loader.loaders
 
@@ -40,7 +39,7 @@ def test_forms_with_directory(tmpdir, default_package):
     assert loaders[1].package_name == default_package
 
 
-def test_forms_with_package(template_package, default_package):
+def test_environment_with_package(template_package: str, default_package: str):
     forms = Reforms(package=template_package)
     loaders = forms.env.loader.loaders
 
@@ -52,7 +51,9 @@ def test_forms_with_package(template_package, default_package):
     assert loaders[1].package_name == default_package
 
 
-def test_forms_with_directory_and_package(tmpdir, template_package, default_package):
+def test_environment_with_directory_and_package(
+    tmpdir, template_package: str, default_package: str
+):
     forms = Reforms(directory=str(tmpdir), package=template_package)
     loaders = forms.env.loader.loaders
 

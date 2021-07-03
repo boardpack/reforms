@@ -1,7 +1,6 @@
 import itertools
 
 import pytest
-
 from pydantic import BaseModel
 from reforms import Reforms, str_field
 from reforms.validators import AnyOf, BaseValidator, Length, NoneOf
@@ -15,15 +14,13 @@ from reforms.validators import AnyOf, BaseValidator, Length, NoneOf
             (
                 ("a", validator1, validator2)
                 for validator1, validator2 in itertools.combinations(
-                    (AnyOf(values=["a", "b", "c"]), Length(min=1)),
-                    2,
+                    (AnyOf(values=["a", "b", "c"]), Length(min=1)), 2
                 )
             ),
             (
                 ("d", validator1, validator2)
                 for validator1, validator2 in itertools.combinations(
-                    (NoneOf(values=["a", "b", "c"]), Length(min=1)),
-                    2,
+                    (NoneOf(values=["a", "b", "c"]), Length(min=1)), 2
                 )
             ),
         )

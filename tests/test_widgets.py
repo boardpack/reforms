@@ -1,8 +1,7 @@
 from typing import Any, Dict, Type
 
-import pytest
-
 import jinja2
+import pytest
 from reforms import Reforms
 from reforms.widgets import BaseWidget, Checkbox, EmailInput, TextInput
 
@@ -15,21 +14,10 @@ def environment() -> jinja2.Environment:
 
 @pytest.fixture
 def render_settings() -> Dict[str, Any]:
-    return {
-        "name": "example",
-        "field_id": "example",
-        "field_class": "example",
-    }
+    return {"name": "example", "field_id": "example", "field_class": "example"}
 
 
-@pytest.mark.parametrize(
-    ("widget_class",),
-    [
-        (TextInput,),
-        (EmailInput,),
-        (Checkbox,),
-    ],
-)
+@pytest.mark.parametrize(("widget_class",), [(TextInput,), (EmailInput,), (Checkbox,)])
 def test_input_widget(
     widget_class: Type[BaseWidget],
     render_settings: Dict[str, Any],

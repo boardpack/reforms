@@ -1,7 +1,6 @@
 from typing import Any, Callable, List
 
 import pytest
-
 from pydantic import BaseModel, ValidationError
 from reforms import Reforms, str_field
 from reforms.validators import AnyOf

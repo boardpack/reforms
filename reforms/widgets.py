@@ -4,12 +4,7 @@ from typing import Any, Dict
 import jinja2
 from markupsafe import Markup
 
-__all__ = (
-    "BaseWidget",
-    "TextInput",
-    "EmailInput",
-    "Checkbox",
-)
+__all__ = ("BaseWidget", "TextInput", "EmailInput", "Checkbox")
 
 
 class BaseWidget:

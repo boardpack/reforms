@@ -13,10 +13,7 @@ class Reforms:
     default_template_package: str = "reforms"
 
     def __init__(
-        self,
-        *,
-        directory: Optional[str] = None,
-        package: Optional[str] = None,
+        self, *, directory: Optional[str] = None, package: Optional[str] = None
     ) -> None:
         self.env = self.load_template_env(directory=directory, package=package)
 

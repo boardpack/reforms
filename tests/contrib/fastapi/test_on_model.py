@@ -3,7 +3,6 @@ from typing import Callable, Dict, Type
 import pytest
 from fastapi import Depends, FastAPI
 from fastapi.testclient import TestClient
-
 from pydantic import BaseModel
 from reforms import bool_field, email_field, str_field
 from reforms.contrib.fastapi import on_model

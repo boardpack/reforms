@@ -9,10 +9,7 @@ from pydantic.utils import Representation
 from ..validators import BaseValidator
 from ..widgets import BaseWidget
 
-__all__ = (
-    "BaseField",
-    "RenderField",
-)
+__all__ = ("BaseField", "RenderField")
 
 
 class BaseField(Representation):
