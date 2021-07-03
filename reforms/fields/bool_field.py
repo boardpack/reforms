@@ -19,15 +19,13 @@ def bool_field(
     render_kw: Optional[Dict[str, Any]] = None,
     validators: Optional[List[BaseValidator]] = None,
 ) -> type:
-    render_kw = render_kw or {}
-
     namespace = dict(
         widget=widget(
             field_id=field_id,
             field_class=field_class,
             label=label,
             disabled=disabled,
-            **render_kw,
+            **(render_kw or {}),
         ),
         _validators=validators or [],
     )
