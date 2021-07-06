@@ -37,7 +37,7 @@ class RenderField(BaseModel):
     def __str__(self) -> str:
         field_type: BaseField = self.data.type_
 
-        if self.data.required and field_type.widget.settings["disabled"]:
+        if self.data.required and field_type.widget.settings.get("disabled"):
             raise ValueError(
                 f"You can't render {self.data.name} because of it has disabled option "
                 "and doesn't have a default value"
