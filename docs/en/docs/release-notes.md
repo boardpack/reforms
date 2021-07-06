@@ -2,6 +2,7 @@
 
 ## Latest Changes
 
+* ✨ Add hidden field. PR [#12](https://github.com/boardpack/reforms/pull/12) by [@dukkee](https://github.com/dukkee).
 * ✨ Change field name convention. PR [#11](https://github.com/boardpack/reforms/pull/11) by [@dukkee](https://github.com/dukkee).
 * Add fixes to codebase and tests. PR [#10](https://github.com/boardpack/reforms/pull/10) by [@dukkee](https://github.com/dukkee).
 * 👷 Add widgets, update templates overload. PR [#8](https://github.com/boardpack/reforms/pull/8) by [@dukkee](https://github.com/dukkee).
