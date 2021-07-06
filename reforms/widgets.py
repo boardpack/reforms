@@ -4,7 +4,7 @@ from typing import Any, Dict
 import jinja2
 from markupsafe import Markup
 
-__all__ = ("BaseWidget", "Input", "TextInput", "EmailInput", "Checkbox")
+__all__ = ("BaseWidget", "Input", "TextInput", "EmailInput", "Checkbox", "HiddenInput")
 
 
 class BaseWidget:
@@ -30,6 +30,11 @@ class BaseWidget:
             )
 
         self._render_settings.update(kwargs)
+
+        if "name" not in self._render_settings:
+            raise ValueError(
+                "The widget must contain the 'name' attribute for the rendering."
+            )
 
         template: jinja2.Template = env.get_template(self.template)
         return Markup(template.render(self.settings))
@@ -79,3 +84,8 @@ class EmailInput(Input):
 class Checkbox(Input):
     input_type: str = "checkbox"
     template: str = "checkbox.html"
+
+
+class HiddenInput(Input):
+    input_type: str = "hidden"
+    template: str = "hidden.html"

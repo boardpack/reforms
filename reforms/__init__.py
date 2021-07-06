@@ -4,7 +4,7 @@ __author__ = """Roman Sadzhenytsia"""
 __email__ = "urchin.dukkee@gmail.com"
 __version__ = "0.1.0"
 
-from .fields import BooleanField, EmailField, StringField
+from .fields import BooleanField, EmailField, HiddenField, StringField
 from .main import Reforms
 
-__all__ = ("Reforms", "StringField", "BooleanField", "EmailField")
+__all__ = ("Reforms", "StringField", "BooleanField", "EmailField", "HiddenField")
