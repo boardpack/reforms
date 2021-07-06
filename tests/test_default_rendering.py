@@ -3,7 +3,7 @@ from typing import Any, Callable, Mapping, Sequence
 
 import pytest
 from pydantic import BaseModel
-from reforms import BooleanField, EmailField, Reforms, StringField
+from reforms import BooleanField, EmailField, HiddenField, Reforms, StringField
 from reforms.fields import BaseField
 
 
@@ -54,6 +54,13 @@ field_settings = [
             ("label", None, "example label text"),
         ),
     ),
+    (
+        HiddenField,
+        (
+            ("field_id", "id", "exampleId"),
+            ("field_class", "class", "example-class"),
+        ),
+    ),
 ]
 
 fields_with_attrs_combinations = [
@@ -102,6 +109,7 @@ def test_rendered_spaces(
         (BooleanField, False, ""),
         (BooleanField, True, "checked"),
         (EmailField, "example@example.com", 'value="example@example.com"'),
+        (HiddenField, "example@example.com", 'value="example@example.com"'),
     ],
 )
 def test_field_default(
@@ -122,6 +130,7 @@ def test_field_default(
         (StringField, 'value="value"'),
         (BooleanField, "checked"),
         (EmailField, 'value="example@example.com"'),
+        (HiddenField, 'value="..."'),
     ],
 )
 def test_field_without_default(
