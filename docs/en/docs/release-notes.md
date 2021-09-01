@@ -2,6 +2,7 @@
 
 ## Latest Changes
 
+* ⬆ Bump dawidd6/action-download-artifact from 2.14.0 to 2.14.1. PR [#15](https://github.com/boardpack/reforms/pull/15) by [@dependabot[bot]](https://github.com/apps/dependabot).
 * ⬆ Bump codecov/codecov-action from 1 to 2.0.2. PR [#14](https://github.com/boardpack/reforms/pull/14) by [@dependabot[bot]](https://github.com/apps/dependabot).
 * ✨ Add hidden field. PR [#12](https://github.com/boardpack/reforms/pull/12) by [@dukkee](https://github.com/dukkee).
 * ✨ Change field name convention. PR [#11](https://github.com/boardpack/reforms/pull/11) by [@dukkee](https://github.com/dukkee).
