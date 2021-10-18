@@ -18,6 +18,8 @@
     <a href="https://pycqa.github.io/isort/" rel="nofollow"><img src="https://camo.githubusercontent.com/fe4a658dd745f746410f961ae45d44355db1cc0e4c09c7877d265c1380248943/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f253230696d706f7274732d69736f72742d2532333136373462313f7374796c653d666c6174266c6162656c436f6c6f723d656638333336" alt="Imports: isort" data-canonical-src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&amp;labelColor=ef8336" style="max-width:100%;"></a>
 </p>
 
+<h2><span>CURRENTLY, LIBRARY ISN'T UNDER ACTIVE DEVELOPMENT!</span></h2>
+
 ---
 
 **Documentation**: <a href="https://reforms.boardpack.org" target="_blank">https://reforms.boardpack.org</a>
