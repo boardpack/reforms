@@ -6,6 +6,7 @@ from reforms import Reforms
 from reforms.widgets import (
     BaseWidget,
     Checkbox,
+    DateInput,
     EmailInput,
     HiddenInput,
     Input,
@@ -17,6 +18,7 @@ all_widgets = (
     EmailInput,
     TextInput,
     HiddenInput,
+    DateInput,
 )
 
 input_widgets = (
@@ -24,6 +26,7 @@ input_widgets = (
     EmailInput,
     TextInput,
     HiddenInput,
+    DateInput,
 )
 
 widgets_with_placeholder = [w for w in input_widgets if w is not Checkbox]
